@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from 'react';
+import { Header } from './header/Header';
+import { Results } from './results/Results';
 
-function App() {
+const App = () => {
+  const [emojiClicks, setEmojiClicks] = useState(null); 
+  const [showResults, setShowResults] = useState(false); 
+
+ const handleShowResults = useCallback((results) => {
+  setEmojiClicks(results);
+  setShowResults(true); 
+},[]);
+ const handleResetResults = useCallback(() => {
+  setEmojiClicks(null);
+  setShowResults(false); 
+},[]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+       <Header showResults={handleShowResults} resetResults={handleResetResults} />
+       {showResults && emojiClicks  && <Results emojiClicks={emojiClicks} />}
     </div>
   );
-}
+};
 
 export default App;
